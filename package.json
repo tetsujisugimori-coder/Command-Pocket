@@ -1,0 +1,1 @@
+{"name":"command-pocket","private":true,"type":"module","scripts":{"test":"node --test tests/*.test.mjs","check":"node --check docs/app.js && node --check docs/skill-catalog.js"}}
