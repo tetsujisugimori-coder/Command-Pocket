@@ -1,6 +1,8 @@
 # Command Pocket
 スキル呼び出し文、ショートカット、シェルコマンドを集めて、検索・コピーするブラウザアプリです。
 
+公開ページ：https://tetsujisugimori-coder.github.io/Command-Pocket/
+
 ## 使い方
 GitHub Pagesで公開した画面を開きます。ログイン不要です。
 - 種類・環境・キーワードで絞り込んでコピーできます。
