@@ -1,11 +1,13 @@
 // Pin changes deliberately after reviewing the source repository's new manifest.
 export const skillsRepository = 'https://github.com/tetsujisugimori-coder/Codex-Skills';
-export const skillsRef = '7e86da888db5c971bc25370c7bf4282c701800f7';
+export const skillsRef = 'dbadc59236c39c05648dfbc9193b121dd84f3e20';
 export const skillsCatalog = Object.freeze([
   {name:'gh-review-merge', label:'レビュー提出・マージ（pullなし）'},
   {name:'gh-commit-submit-review', label:'レビュー記録・提出だけ'},
   {name:'gh-review-merge-sync', label:'レビュー提出からmain更新まで'},
-  {name:'pull-main', label:'ローカルmainを更新'}
+  {name:'pull-main', label:'ローカルmainを更新'},
+  {name:'failure-convergence-review', label:'破綻探索・収束判断レビュー'},
+  {name:'root-cause-review', label:'根本原因・制約再評価レビュー'}
 ].map(Object.freeze));
 
 export function resolveSkill(item) {
