@@ -13,11 +13,13 @@ const seed=[
 ['ファイル一覧を表示','shell','PowerShell','現在のフォルダのファイルとサブフォルダを表示。','Get-ChildItem',['フォルダ','一覧'],false],
 ['クリップボード履歴','shortcut','Windows','以前コピーしたテキストを選んで貼り付ける。','Win + V',['コピー','時短'],true],
 ['コマンドパレット','shortcut','VS Code','コマンドを名前で探して実行する。','Ctrl + Shift + P',['エディタ','検索'],false],
-['ファイルをすばやく開く','shortcut','VS Code','ファイル名を入力して目的のファイルへ移動。','Ctrl + P',['エディタ','移動'],false]
+['ファイルをすばやく開く','shortcut','VS Code','ファイル名を入力して目的のファイルへ移動。','Ctrl + P',['エディタ','移動'],false],
+['破綻探索・収束判断レビュー','skill','ChatGPT / Codex','破綻条件を独立に探索し、証拠と残余リスクからレビューを収束。','failure-convergence-reviewスキルを使って、対象PRの破綻条件を独立に調べ、重大度・証拠・残余リスクに基づきマージ推奨と終了条件を示してください。レビューのみ行い、コード変更・投稿・マージはしないでください。\n対象PR：{{PR_URL}}',['GitHub','レビュー','収束'],false],
+['根本原因・制約再評価レビュー','skill','ChatGPT / Codex','難航する問題の根本原因を調べ、過去の実装制約を見直す。','root-cause-reviewスキルを使って、現在の問題の根本原因を深掘りし、過去の実装制約が足枷になっていないか再評価してください。安全上の不変条件は維持し、推奨解決策と受入条件を提案してください。レビューのみ行い、コード変更・投稿・マージはしないでください。\n対象PR：{{PR_URL}}',['GitHub','根本原因','設計'],false]
 ].map((a,i)=>({id:'seed-'+i,title:a[0],type:a[1],env:a[2],description:a[3],content:a[4],tags:a[5],favorite:a[6]}));
 let items=seed.map(x=>({...x})),active='all',editing=null,copyItem=null,toastTimer;
 function valid(x){return x&&typeof x.id==='string'&&x.id.length<=150&&typeof x.title==='string'&&x.title.trim()&&x.title.length<=100&&Object.hasOwn(types,x.type)&&typeof x.env==='string'&&x.env.length<=80&&typeof x.description==='string'&&x.description.length<=250&&typeof x.content==='string'&&x.content.trim()&&x.content.length<=20000&&Array.isArray(x.tags)&&x.tags.length<=30&&x.tags.every(t=>typeof t==='string'&&t.length<=200)&&typeof x.favorite==='boolean'}
-try{let saved=localStorage.getItem(KEY);if(saved!==null){let data=JSON.parse(saved);if(!Array.isArray(data)||!data.every(valid)||new Set(data.map(x=>x.id)).size!==data.length)throw Error();items=data}}catch{setTimeout(()=>toast('保存データを読み込めなかったため、初期サンプルを表示しています。'),100)}
+try{let saved=localStorage.getItem(KEY);if(saved!==null){let data=JSON.parse(saved);if(!Array.isArray(data)||!data.every(valid)||new Set(data.map(x=>x.id)).size!==data.length)throw Error();items=data;for(const extra of seed.filter(x=>['seed-12','seed-13'].includes(x.id))){if(!items.some(x=>x.id===extra.id))items.push({...extra})}}}catch{setTimeout(()=>toast('保存データを読み込めなかったため、初期サンプルを表示しています。'),100)}
 function toast(msg){$('#toast').textContent=msg;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),4000)}
 function persist(next){try{localStorage.setItem(KEY,JSON.stringify(next));items=next;render();return true}catch{toast('保存できませんでした。ブラウザの保存設定・空き容量を確認してください。');return false}}
 function el(tag,cls,text){let e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
